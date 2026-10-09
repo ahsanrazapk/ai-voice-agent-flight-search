@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AI Voice Agent for Flight Search</title>
+<link rel="stylesheet" href="poster.css">
+<style>
+  .poster { --accent: #8FA0FF; --accent2: #22D3EE; }
+  .screen { background: linear-gradient(180deg, #0C1230 0%, #090D22 55%, #070A1A 100%); }
+  .app-head { display: flex; align-items: center; justify-content: space-between; padding: 8px 24px 0; }
+  .app-head h3 { font: 600 19px 'Space Grotesk'; }
+  .live { display: flex; align-items: center; gap: 7px; font: 600 13px Inter; color: #6EE7B7; padding: 6px 11px; border-radius: 999px; background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.35); }
+  .live::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #34D399; box-shadow: 0 0 8px #34D399; }
+  .orb-wrap { display: flex; justify-content: center; padding: 18px 0 10px; }
+  .orb {
+    width: 150px; height: 150px; border-radius: 50%;
+    background: url(orb.png) no-repeat; background-size: 310px 234px; background-position: -82px -44px;
+    box-shadow: 0 0 60px rgba(120,130,255,.55), 0 0 0 1px rgba(255,255,255,.06);
+  }
+  .bubbles { display: flex; flex-direction: column; gap: 10px; padding: 6px 20px; }
+  .b { max-width: 82%; padding: 11px 14px; border-radius: 18px; font: 500 15px/1.38 Inter; }
+  .b.user { align-self: flex-end; background: var(--accent); color: #0A0F1E; border-bottom-right-radius: 6px; }
+  .b.bot { align-self: flex-start; background: rgba(255,255,255,.07); border: 1px solid var(--line); border-bottom-left-radius: 6px; }
+  .cards { display: flex; flex-direction: column; gap: 10px; padding: 12px 20px 0; }
+  .fc { border-radius: 16px; padding: 13px 15px; background: rgba(255,255,255,.05); border: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto; row-gap: 5px; }
+  .fc.best { border-color: color-mix(in srgb, var(--accent) 70%, transparent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+  .route { font: 700 18px 'Space Grotesk'; letter-spacing: .02em; }
+  .route span { color: var(--accent); padding: 0 6px; }
+  .price { font: 700 17px 'Space Grotesk'; text-align: right; }
+  .meta { font: 500 13px Inter; color: var(--muted); }
+  .tag { font: 600 11px Inter; color: #6EE7B7; text-align: right; text-transform: uppercase; letter-spacing: .06em; }
+  .mic-bar { margin-top: auto; padding: 0 24px 30px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .wave { display: flex; align-items: center; gap: 5px; height: 34px; }
+  .wave i { display: block; width: 5px; border-radius: 3px; background: linear-gradient(var(--accent2), var(--accent)); }
+  .mic { width: 70px; height: 70px; border-radius: 50%; display: grid; place-items: center; color: #0A0F1E;
+    background: linear-gradient(135deg, var(--accent2), var(--accent)); box-shadow: 0 0 0 10px rgba(143,160,255,.12), 0 0 40px rgba(143,160,255,.5); }
+  .mic svg.ic { width: 30px; height: 30px; stroke-width: 2.4; }
+  .listen { font: 500 13px Inter; color: var(--muted); }
+  /* floating tool-call card */
+  .tool { position: absolute; left: -18px; top: 300px; width: 250px; padding: 16px 18px; border-radius: 18px; background: #0F1530; border: 1px solid color-mix(in srgb, var(--accent2) 45%, transparent); }
+  .tool .k { font: 600 12px 'JetBrains Mono'; color: var(--accent2); letter-spacing: .08em; text-transform: uppercase; }
+  .tool .fn { font: 600 17px 'JetBrains Mono'; margin-top: 8px; }
+  .tool .args { font: 500 13px/1.6 'JetBrains Mono'; color: var(--muted); margin-top: 6px; }
+  .tool .args b { color: #E8ECF6; font-weight: 500; }
+  .phone-pos { position: relative; margin-left: 150px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="grid"></div>
+
+  <div class="left">
+    <div class="eyebrow">AI Voice Agent · Flutter</div>
+    <h1>AI Voice Agent<br>for <em>Flight Search</em></h1>
+    <p class="sub">A spoken booking assistant. You talk, it asks the right questions, searches flights and shows the results in the app while it speaks.</p>
+    <ul class="feats">
+      <li>Natural back-and-forth with turn detection, noise cancellation and Silero VAD</li>
+      <li>Tool calling: the agent runs a flight search and pushes results to the app UI</li>
+      <li>Flutter app connected to the agent through a LiveKit room</li>
+    </ul>
+    <div class="chips">
+      <span class="chip hl">LiveKit Agents</span>
+      <span class="chip hl">Flutter</span>
+      <span class="chip">Python</span>
+      <span class="chip">Tool calling</span>
+      <span class="chip">Silero VAD</span>
+      <span class="chip">Turn detection</span>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="phone-pos">
+      <div class="phone glow">
+        <div class="screen">
+          <div class="island"></div>
+          <div class="statusbar"><span>9:41</span><span class="sb-icons"><i></i><b></b></span></div>
+          <div class="app-head"><h3>Flight Assistant</h3><span class="live">Live</span></div>
+          <div class="orb-wrap"><div class="orb"></div></div>
+          <div class="bubbles">
+            <div class="b user">Find me a flight from Lahore to Dubai next Monday</div>
+            <div class="b bot">Here are one-way flights for Monday. The earliest leaves at 9:40.</div>
+          </div>
+          <div class="cards">
+            <div class="fc best">
+              <div class="route">LHE<span>→</span>DXB</div><div class="tag">Best</div>
+              <div class="meta">09:40 – 12:05 · Nonstop</div><div class="price">PKR 68,400</div>
+            </div>
+            <div class="fc">
+              <div class="route">LHE<span>→</span>DXB</div><div class="tag" style="color:var(--muted)">Later</div>
+              <div class="meta">13:15 – 15:30 · Nonstop</div><div class="price">PKR 72,900</div>
+            </div>
+          </div>
+          <div class="mic-bar">
+            <div class="wave">
+              <i style="height:10px"></i><i style="height:18px"></i><i style="height:28px"></i><i style="height:16px"></i><i style="height:32px"></i><i style="height:22px"></i><i style="height:12px"></i><i style="height:26px"></i><i style="height:34px"></i><i style="height:18px"></i><i style="height:24px"></i><i style="height:12px"></i><i style="height:20px"></i><i style="height:8px"></i>
+            </div>
+            <div class="mic"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div>
+            <div class="listen">Listening…</div>
+          </div>
+        </div>
+      </div>
+      <div class="tool glow" style="left:-150px; top:118px">
+        <div class="k">Tool call</div>
+        <div class="fn">search_flights()</div>
+        <div class="args">origin: <b>"Lahore"</b><br>destination: <b>"Dubai"</b><br>date: <b>"next Monday"</b></div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
